@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Appointments.css";
 
-const API_URL = "http://127.0.0.1:8000/api/appointments/";
+const API_URL = "https://aarogyacare-backend.onrender.com/api/appointments/";
 
 function Appointments() {
     const [appointments, setAppointments] = useState([]);

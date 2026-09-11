@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
-const API = "http://127.0.0.1:8000/api";
+const API = "https://aarogyacare-backend.onrender.com/api";
 
 function Dashboard() {
   const navigate = useNavigate();

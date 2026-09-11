@@ -7,7 +7,7 @@ import "./Inventory.css";
 // API URL
 // =========================================================
 
-const API_URL = "http://127.0.0.1:8000/api/inventory/inventory/";
+const API_URL = "https://aarogyacare-backend.onrender.com/api/inventory/inventory/";
 
 
 // =========================================================

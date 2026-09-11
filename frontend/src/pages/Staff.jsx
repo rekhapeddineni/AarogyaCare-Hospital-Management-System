@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./Staff.css";
 
-const API_URL = "http://127.0.0.1:8000/api/staff/staff/";
+const API_URL = "https://aarogyacare-backend.onrender.com/api/staff/staff/";
 
 function Staff() {
   const [staff, setStaff] = useState([]);

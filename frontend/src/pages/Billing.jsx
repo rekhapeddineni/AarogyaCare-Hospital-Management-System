@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Billing.css";
 
-const API_URL = "http://127.0.0.1:8000/api/billing/";
+const API_URL = "https://aarogyacare-backend.onrender.com/api/billing/";
 
 function Billing() {
   const [showForm, setShowForm] = useState(false);

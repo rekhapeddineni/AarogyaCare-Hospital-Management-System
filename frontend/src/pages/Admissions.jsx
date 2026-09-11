@@ -6,10 +6,10 @@ import "./Admissions.css";
 // =========================================================
 
 const ADMISSIONS_API =
-    "http://127.0.0.1:8000/api/admissions/admissions/";
+    "https://aarogyacare-backend.onrender.com/api/admissions/admissions/";
 
 const PATIENTS_API =
-    "http://127.0.0.1:8000/api/patients/";
+    "https://aarogyacare-backend.onrender.com/api/patients/";
 
 
 // =========================================================

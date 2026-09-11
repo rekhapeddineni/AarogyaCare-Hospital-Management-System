@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import "./Laboratory.css";
 
 const API_URL =
-    "http://127.0.0.1:8000/api/laboratory/labtests/";
+    "https://aarogyacare-backend.onrender.com/api/laboratory/labtests/";
 
 const PATIENTS_URL =
-    "http://127.0.0.1:8000/api/patients/";
+    "https://aarogyacare-backend.onrender.com/api/patients/";
 
 function Laboratory() {
 

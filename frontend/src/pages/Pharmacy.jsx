@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Pharmacy.css";
 
-const API_URL = "http://127.0.0.1:8000/api/pharmacy/medicines/";
+const API_URL = "https://aarogyacare-backend.onrender.com/api/pharmacy/medicines/";
 
 function Pharmacy() {
 

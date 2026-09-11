@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./Doctors.css";
 
-const API_URL = "http://127.0.0.1:8000/api/doctors/";
+const API_URL = "https://aarogyacare-backend.onrender.com/api/doctors/";
 
 function Doctors() {
     const emptyForm = {
