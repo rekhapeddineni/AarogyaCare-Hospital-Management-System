@@ -1,0 +1,522 @@
+/* =========================================
+   APPOINTMENTS PAGE
+========================================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.page-header h1 {
+    margin: 0;
+    color: #17324d;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 6px 0 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.add-appointment-btn {
+    border: none;
+    border-radius: 9px;
+
+    padding: 11px 18px;
+
+    background: #1976d2;
+    color: white;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(25, 118, 210, 0.18);
+
+    transition: 0.2s ease;
+}
+
+.add-appointment-btn:hover {
+    background: #1565c0;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.appointment-summary {
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    width: 245px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 17px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #e3eaf0;
+    border-radius: 13px;
+
+    box-shadow: 0 3px 12px rgba(25, 55, 85, 0.04);
+}
+
+.summary-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #e8f2ff;
+
+    font-size: 23px;
+}
+
+.summary-content h3 {
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.summary-number {
+    margin: 3px 0 0;
+
+    color: #1976d2;
+
+    font-size: 26px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   COMMON CARD
+========================================= */
+
+.appointment-card {
+    margin-bottom: 22px;
+
+    padding: 22px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #e3eaf0;
+    border-radius: 14px;
+
+    box-shadow: 0 3px 12px rgba(25, 55, 85, 0.04);
+}
+
+
+/* =========================================
+   FORM HEADER
+========================================= */
+
+.card-title {
+    margin-bottom: 22px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid #edf1f4;
+}
+
+.card-title h2 {
+    margin: 0;
+
+    color: #243b53;
+
+    font-size: 19px;
+}
+
+.card-title p {
+    margin: 5px 0 0;
+
+    color: #8795a5;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+
+    color: #475569;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid #d7e0e8;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #334155;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 75px;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #b9c9d8;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #1976d2;
+
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.09);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a0acb8;
+}
+
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+
+    margin-top: 22px;
+}
+
+.save-btn,
+.cancel-btn {
+    border: none;
+    border-radius: 7px;
+
+    padding: 10px 18px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.save-btn {
+    background: #1976d2;
+    color: #ffffff;
+
+    box-shadow: 0 3px 8px rgba(25, 118, 210, 0.18);
+}
+
+.save-btn:hover {
+    background: #1565c0;
+}
+
+.cancel-btn {
+    background: #edf1f5;
+    color: #475569;
+}
+
+.cancel-btn:hover {
+    background: #dfe6ed;
+}
+
+
+/* =========================================
+   LIST HEADER
+========================================= */
+
+.list-header {
+    margin-bottom: 18px;
+}
+
+.list-header h2 {
+    margin: 0;
+
+    color: #243b53;
+
+    font-size: 17px;
+}
+
+.list-header p {
+    margin: 5px 0 0;
+
+    color: #8997a7;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table-container table {
+    width: 100%;
+    min-width: 1100px;
+
+    border-collapse: collapse;
+}
+
+.table-container thead {
+    background: #f7f9fb;
+}
+
+.table-container th {
+    padding: 12px 11px;
+
+    border-bottom: 1px solid #e2e8ee;
+
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.table-container td {
+    padding: 13px 11px;
+
+    border-bottom: 1px solid #edf1f4;
+
+    color: #617184;
+
+    font-size: 11px;
+
+    vertical-align: middle;
+}
+
+.table-container tbody tr {
+    transition: 0.15s ease;
+}
+
+.table-container tbody tr:hover {
+    background: #f8fbfe;
+}
+
+
+/* =========================================
+   PATIENT / REASON
+========================================= */
+
+.patient-name {
+    color: #34495e !important;
+    font-weight: 600;
+}
+
+.reason-cell {
+    max-width: 190px;
+
+    color: #718096 !important;
+}
+
+
+/* =========================================
+   STATUS BADGES
+========================================= */
+
+.status-badge {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 15px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.status-badge.confirmed {
+    background: #e8f7ef;
+    color: #15803d;
+}
+
+.status-badge.pending {
+    background: #fff7df;
+    color: #a16207;
+}
+
+.status-badge.completed {
+    background: #e8f2ff;
+    color: #1976d2;
+}
+
+.status-badge.cancelled {
+    background: #fff0f0;
+    color: #c62828;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.edit-btn,
+.delete-btn {
+    width: 31px;
+    height: 31px;
+
+    border: none;
+    border-radius: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition: 0.15s ease;
+}
+
+.edit-btn {
+    background: #e8f2ff;
+}
+
+.edit-btn:hover {
+    background: #d5e7fb;
+    transform: translateY(-1px);
+}
+
+.delete-btn {
+    background: #fff0f0;
+}
+
+.delete-btn:hover {
+    background: #ffdede;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   NO DATA
+========================================= */
+
+.no-data {
+    padding: 50px !important;
+
+    text-align: center;
+
+    color: #94a3b8 !important;
+
+    font-size: 12px !important;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: span 1;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    .appointment-card {
+        padding: 15px;
+    }
+
+    .summary-card {
+        width: 100%;
+    }
+}

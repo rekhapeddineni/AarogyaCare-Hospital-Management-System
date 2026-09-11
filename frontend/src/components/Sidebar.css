@@ -1,0 +1,336 @@
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 250px;
+    height: 100vh;
+
+    box-sizing: border-box;
+
+    background: #0f766e;
+    color: white;
+
+    padding: 20px 14px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    z-index: 1000;
+}
+
+
+/* =========================================
+   HOSPITAL BRAND
+========================================= */
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 5px 8px 22px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+    flex-shrink: 0;
+}
+
+
+/* Hospital Logo */
+
+.hospital-logo {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+}
+
+
+/* Hospital Name */
+
+.hospital-name {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.hospital-name h2 {
+    margin: 0;
+
+    color: white;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hospital-name span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #ccfbf1;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   MENU TITLE
+========================================= */
+
+.sidebar-section-title {
+    margin: 22px 10px 9px;
+
+    color: #99f6e4;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   MENU
+========================================= */
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   MENU ITEM
+========================================= */
+
+.menu-item {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 44px;
+
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border-radius: 9px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: #e6fffb;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+    white-space: nowrap;
+}
+
+
+/* Icon */
+
+.menu-icon {
+    width: 24px;
+    min-width: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+
+/* Label */
+
+.menu-label {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   HOVER
+========================================= */
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.13);
+
+    color: white;
+
+    transform: translateX(2px);
+}
+
+
+/* =========================================
+   ACTIVE MENU ITEM
+========================================= */
+
+.menu-item.active {
+    background: white;
+
+    color: #0f766e;
+
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Active icon */
+
+.menu-item.active .menu-icon {
+    transform: scale(1.05);
+}
+
+
+/* =========================================
+   SIDEBAR FOOTER
+========================================= */
+
+.sidebar-footer {
+    margin-top: auto;
+
+    padding: 12px 10px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    flex-shrink: 0;
+}
+
+
+/* Online Dot */
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #86efac;
+
+    flex-shrink: 0;
+}
+
+
+/* Footer Text */
+
+.sidebar-footer strong {
+    display: block;
+
+    color: white;
+
+    font-size: 11px;
+}
+
+.sidebar-footer span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #ccfbf1;
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 210px;
+
+        padding: 18px 10px;
+    }
+
+    .hospital-name h2 {
+        font-size: 15px;
+    }
+
+    .menu-item {
+        padding: 9px 10px;
+
+        font-size: 12px;
+    }
+
+    .menu-icon {
+        font-size: 16px;
+    }
+}
+

@@ -1,0 +1,537 @@
+.laboratory-page {
+    padding: 30px;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.laboratory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.laboratory-header h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.laboratory-header p {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.add-test-btn {
+    border: none;
+    background: #0f766e;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.add-test-btn:hover {
+    background: #0d665f;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.laboratory-form-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+}
+
+.form-heading {
+    margin-bottom: 22px;
+}
+
+.form-heading h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 20px;
+}
+
+.form-heading p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    height: 42px;
+    padding: 0 12px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    outline: none;
+    color: #0f172a;
+    font-size: 13px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #0f766e;
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.save-btn,
+.cancel-btn {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.save-btn {
+    background: #0f766e;
+    color: white;
+}
+
+.save-btn:hover {
+    background: #0d665f;
+}
+
+.cancel-btn {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.cancel-btn:hover {
+    background: #cbd5e1;
+}
+
+
+/* =========================================================
+   STAT
+========================================================= */
+
+.laboratory-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: #f0fdfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.stat-content span {
+    display: block;
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.stat-content strong {
+    display: block;
+    color: #0f172a;
+    font-size: 24px;
+}
+
+
+/* =========================================================
+   RECORDS CARD
+========================================================= */
+
+.laboratory-records-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.records-header {
+    padding: 22px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.records-header h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 19px;
+}
+
+.records-header p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.record-count {
+    padding: 7px 12px;
+    background: #f0fdfa;
+    color: #0f766e;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.laboratory-table {
+    width: 100%;
+    min-width: 1550px;
+    border-collapse: collapse;
+}
+
+.laboratory-table th {
+    padding: 14px 15px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.laboratory-table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    font-size: 13px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.laboratory-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.laboratory-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   TEST ID
+========================================================= */
+
+.test-id {
+    display: inline-block;
+    padding: 5px 9px;
+    background: #ecfeff;
+    border: 1px solid #ccfbf1;
+    border-radius: 6px;
+    color: #0f766e;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TEST NAME
+========================================================= */
+
+.test-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.test-avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: #f0fdfa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.test-info strong {
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PATIENT
+========================================================= */
+
+.patient-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.patient-icon {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   DOCTOR
+========================================================= */
+
+.doctor-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doctor-icon {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   DEPARTMENT
+========================================================= */
+
+.department-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.department-icon {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.date {
+    color: #64748b;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   AMOUNT
+========================================================= */
+
+.amount {
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TECHNICIAN
+========================================================= */
+
+.technician-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.technician-icon {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-badge.completed {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.status-badge.pending {
+    background: #fffbeb;
+    color: #b45309;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.edit-btn,
+.delete-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.edit-btn {
+    background: #eff6ff;
+}
+
+.edit-btn:hover {
+    background: #dbeafe;
+}
+
+.delete-btn {
+    background: #fef2f2;
+}
+
+.delete-btn:hover {
+    background: #fee2e2;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+    padding: 50px 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .laboratory-page {
+        padding: 20px;
+    }
+
+    .laboratory-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .records-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+}

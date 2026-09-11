@@ -1,0 +1,561 @@
+
+/* =========================================
+   AROGYACARE - DEPARTMENTS MANAGEMENT
+========================================= */
+
+.departments-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 4px 0 30px;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.departments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.departments-header h1 {
+    margin: 0;
+    color: #17324d;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.departments-header p {
+    margin: 6px 0 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+/* =========================================
+   ADD DEPARTMENT BUTTON
+========================================= */
+
+.add-department-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: 9px;
+    padding: 11px 17px;
+    background: #1976d2;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(25, 118, 210, 0.18);
+    transition: 0.2s ease;
+}
+
+.add-department-btn:hover {
+    background: #1565c0;
+    transform: translateY(-1px);
+}
+
+.add-department-btn.active {
+    background: #64748b;
+}
+
+.add-department-btn span {
+    font-size: 17px;
+}
+
+/* =========================================
+   STAT CARD
+========================================= */
+
+.department-stat-card {
+    width: 245px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding: 17px;
+    background: #ffffff;
+    border: 1px solid #e3eaf0;
+    border-radius: 13px;
+    box-shadow: 0 3px 12px rgba(25, 55, 85, 0.04);
+    box-sizing: border-box;
+}
+
+.department-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f2ff;
+    font-size: 23px;
+}
+
+.department-stat-card p {
+    margin: 0;
+    color: #718096;
+    font-size: 12px;
+}
+
+.department-stat-card h2 {
+    margin: 3px 0 0;
+    color: #1976d2;
+    font-size: 26px;
+}
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.department-message {
+    padding: 11px 15px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.department-message.success {
+    background: #e8f7ef;
+    color: #15803d;
+    border: 1px solid #c9efd9;
+}
+
+.department-message.error {
+    background: #fff0f0;
+    color: #c62828;
+    border: 1px solid #f4cccc;
+}
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.department-form-card {
+    margin-bottom: 22px;
+    padding: 23px;
+    background: #ffffff;
+    border: 1px solid #e3eaf0;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(25, 55, 85, 0.04);
+}
+
+.department-form-header {
+    margin-bottom: 23px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #edf1f4;
+}
+
+.department-form-header h2 {
+    margin: 0;
+    color: #243b53;
+    font-size: 19px;
+}
+
+.department-form-header p {
+    margin: 5px 0 0;
+    color: #8795a5;
+    font-size: 12px;
+}
+
+/* =========================================
+   FORM SECTIONS
+========================================= */
+
+.department-form-section {
+    margin-bottom: 23px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf1f4;
+}
+
+.department-form-section h3 {
+    margin: 0 0 16px;
+    color: #1976d2;
+    font-size: 14px;
+}
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.department-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+}
+
+.department-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.department-form-group.full-width {
+    grid-column: span 2;
+}
+
+.department-form-group label {
+    margin-bottom: 6px;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.department-form-group input,
+.department-form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    border: 1px solid #d7e0e8;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.department-form-group input {
+    height: 40px;
+}
+
+.department-form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.department-form-group input:hover,
+.department-form-group textarea:hover {
+    border-color: #b9c9d8;
+}
+
+.department-form-group input:focus,
+.department-form-group textarea:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.09);
+}
+
+.department-form-group input::placeholder,
+.department-form-group textarea::placeholder {
+    color: #a0acb8;
+}
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.department-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.department-cancel-btn,
+.department-save-btn {
+    border: none;
+    border-radius: 7px;
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.department-cancel-btn {
+    background: #edf1f5;
+    color: #475569;
+}
+
+.department-cancel-btn:hover {
+    background: #dfe6ed;
+}
+
+.department-save-btn {
+    background: #1976d2;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(25, 118, 210, 0.18);
+}
+
+.department-save-btn:hover {
+    background: #1565c0;
+}
+
+.department-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =========================================
+   DEPARTMENT TABLE CARD
+========================================= */
+
+.department-table-card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e3eaf0;
+    border-radius: 14px;
+    padding: 22px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 12px rgba(25, 55, 85, 0.04);
+}
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.department-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.department-table-header h2 {
+    margin: 0;
+    color: #243b53;
+    font-size: 17px;
+}
+
+.department-table-header p {
+    margin: 5px 0 0;
+    color: #8997a7;
+    font-size: 11px;
+}
+
+.department-record-count {
+    padding: 6px 11px;
+    border-radius: 20px;
+    background: #e8f2ff;
+    color: #1976d2;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.department-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.department-table-container table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+}
+
+.department-table-container thead {
+    background: #f7f9fb;
+}
+
+.department-table-container th {
+    padding: 12px 11px;
+    border-bottom: 1px solid #e2e8ee;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.department-table-container td {
+    padding: 13px 11px;
+    border-bottom: 1px solid #edf1f4;
+    color: #617184;
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+.department-table-container tbody tr {
+    transition: background 0.15s ease;
+}
+
+.department-table-container tbody tr:hover {
+    background: #f8fbfe;
+}
+
+/* =========================================
+   DEPARTMENT NAME
+========================================= */
+
+.department-name {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 185px;
+}
+
+.department-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e8f2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.department-name strong {
+    display: block;
+    color: #34495e;
+    font-size: 11px;
+}
+
+.department-name small {
+    display: block;
+    margin-top: 3px;
+    color: #9aa6b3;
+    font-size: 9px;
+}
+
+/* =========================================
+   BADGES
+========================================= */
+
+.department-id-badge {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #526274;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.department-head-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 15px;
+    background: #eaf3ff;
+    color: #1976d2;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.department-location-badge {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 15px;
+    background: #eaf7ef;
+    color: #168447;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.department-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.department-edit-btn,
+.department-delete-btn {
+    width: 31px;
+    height: 31px;
+    border: none;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.15s ease;
+}
+
+.department-edit-btn {
+    background: #e8f2ff;
+}
+
+.department-edit-btn:hover {
+    background: #d5e7fb;
+    transform: translateY(-1px);
+}
+
+.department-delete-btn {
+    background: #fff0f0;
+}
+
+.department-delete-btn:hover {
+    background: #ffdede;
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.department-empty-state {
+    padding: 55px 20px;
+    text-align: center;
+}
+
+.department-empty-state > div {
+    font-size: 42px;
+}
+
+.department-empty-state h3 {
+    margin: 12px 0 5px;
+    color: #34495e;
+    font-size: 16px;
+}
+
+.department-empty-state p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .departments-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .department-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .department-form-group.full-width {
+        grid-column: span 1;
+    }
+
+    .department-table-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .departments-header h1 {
+        font-size: 22px;
+    }
+
+    .department-form-card,
+    .department-table-card {
+        padding: 15px;
+    }
+
+    .department-stat-card {
+        width: 100%;
+    }
+}
