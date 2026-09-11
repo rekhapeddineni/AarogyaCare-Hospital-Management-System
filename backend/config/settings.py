@@ -30,10 +30,13 @@ if not SECRET_KEY:
 
 DEBUG = False
 
+
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+    "aarogyacare-backend.onrender.com",
 ]
+
 
 
 # =========================================================
