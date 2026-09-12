@@ -228,4 +228,6 @@ REST_FRAMEWORK = {
 # CORS
 # =========================================================
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://aarogya-care-hospital-management-system-amgz3vs3e.vercel.app",
+]
