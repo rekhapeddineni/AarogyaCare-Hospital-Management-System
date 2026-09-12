@@ -20,106 +20,163 @@ function Chatbot() {
     // =========================================================
 
     useEffect(() => {
-        fetch(`${API_URL}/doctors/`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Doctor API failed");
-                }
-
-                return response.json();
-            })
-            .then((data) => {
-                console.log("Doctors from database:", data);
-
-                if (Array.isArray(data)) {
-                    setDoctors(data);
-                } else if (Array.isArray(data.results)) {
-                    setDoctors(data.results);
-                } else {
-                    setDoctors([]);
-                }
-            })
-            .catch((error) => {
-                console.error("Doctor loading error:", error);
-                setDoctors([]);
-            });
+        loadDoctors();
     }, []);
 
-    // =========================================================
-    // DEPARTMENT INFORMATION
-    // =========================================================
+    const loadDoctors = async () => {
+        try {
+            const response = await fetch(`${API_URL}/doctors/`);
 
-    const departmentInfo = {
-        "General Medicine": {
-            description:
-                "General health problems, fever, infections, stomach problems, weakness and common illnesses."
-        },
+            if (!response.ok) {
+                throw new Error("Doctor API failed");
+            }
 
-        Cardiology: {
-            description:
-                "Heart and cardiovascular problems such as chest discomfort, palpitations and blood-pressure-related concerns."
-        },
+            const data = await response.json();
 
-        Dermatology: {
-            description:
-                "Skin, hair and nail problems including rashes, itching, acne, infections and hair loss."
-        },
+            console.log("Doctors loaded from database:", data);
 
-        Ophthalmology: {
-            description:
-                "Eye and vision problems including blurred vision, eye pain, redness and infections."
-        },
-
-        ENT: {
-            description:
-                "Ear, nose and throat problems including ear pain, hearing problems, sinus issues and sore throat."
-        },
-
-        Dentistry: {
-            description:
-                "Teeth, gums and mouth problems including toothache, cavities, gum swelling and dental infections."
-        },
-
-        Orthopedics: {
-            description:
-                "Bones, joints, muscles and movement problems including back pain, knee pain, fractures and injuries."
-        },
-
-        Neurology: {
-            description:
-                "Brain, nerves and neurological problems including numbness, seizures, tremors, dizziness and memory problems."
-        },
-
-        Gynecology: {
-            description:
-                "Women's reproductive and gynecological concerns including period problems, pregnancy-related concerns and pelvic problems."
-        },
-
-        Pediatrics: {
-            description:
-                "Healthcare for babies, children and adolescents."
-        },
-
-        Urology: {
-            description:
-                "Urinary system and kidney-related problems including burning urination, kidney stones and urinary infections."
-        },
-
-        Pulmonology: {
-            description:
-                "Lung and breathing problems including asthma, wheezing, persistent cough and breathing difficulty."
+            if (Array.isArray(data)) {
+                setDoctors(data);
+            } else if (Array.isArray(data.results)) {
+                setDoctors(data.results);
+            } else {
+                setDoctors([]);
+            }
+        } catch (error) {
+            console.error("Doctor loading error:", error);
+            setDoctors([]);
         }
     };
 
     // =========================================================
-    // SYMPTOM KEYWORDS
+    // NORMALIZE TEXT
     // =========================================================
 
-    const departmentKeywords = {
+    const normalize = (text) => {
+        return text
+            .toLowerCase()
+            .replace(/[^\w\s]/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+    };
+
+    // =========================================================
+    // DEPARTMENT ALIASES
+    // =========================================================
+
+    const departmentAliases = {
+        "General Medicine": [
+            "general medicine",
+            "general doctor",
+            "general physician",
+            "physician",
+            "general health"
+        ],
+
+        Cardiology: [
+            "cardiology",
+            "cardiologist",
+            "heart doctor",
+            "heart specialist",
+            "cardiac"
+        ],
+
+        Dermatology: [
+            "dermatology",
+            "dermatologist",
+            "skin doctor",
+            "skin specialist",
+            "skin department"
+        ],
+
+        Ophthalmology: [
+            "ophthalmology",
+            "ophthalmologist",
+            "eye doctor",
+            "eye specialist",
+            "eye department"
+        ],
+
+        ENT: [
+            "ent",
+            "ent doctor",
+            "ent specialist",
+            "ear doctor",
+            "nose doctor",
+            "throat doctor"
+        ],
+
+        Dentistry: [
+            "dentistry",
+            "dentist",
+            "dental",
+            "dental doctor",
+            "teeth doctor",
+            "tooth doctor"
+        ],
+
+        Orthopedics: [
+            "orthopedics",
+            "orthopedic",
+            "orthopaedic",
+            "orthopaedics",
+            "bone doctor",
+            "joint doctor"
+        ],
+
+        Neurology: [
+            "neurology",
+            "neurologist",
+            "neurosurgeon",
+            "brain doctor",
+            "nerve doctor"
+        ],
+
+        Gynecology: [
+            "gynecology",
+            "gynecologist",
+            "gynaecology",
+            "gynaecologist",
+            "women doctor"
+        ],
+
+        Pediatrics: [
+            "pediatrics",
+            "pediatrician",
+            "paediatrics",
+            "paediatrician",
+            "child doctor",
+            "children doctor",
+            "baby doctor"
+        ],
+
+        Urology: [
+            "urology",
+            "urologist",
+            "urine doctor",
+            "urinary doctor",
+            "kidney doctor"
+        ],
+
+        Pulmonology: [
+            "pulmonology",
+            "pulmonologist",
+            "lung doctor",
+            "lung specialist",
+            "respiratory doctor"
+        ]
+    };
+
+    // =========================================================
+    // SYMPTOMS
+    // =========================================================
+
+    const symptoms = {
         "General Medicine": [
             "fever",
             "temperature",
             "cold",
+            "flu",
             "cough",
             "sneeze",
             "sneezing",
@@ -129,6 +186,7 @@ function Chatbot() {
             "head pain",
             "body pain",
             "body ache",
+            "body aches",
             "weakness",
             "weak",
             "tired",
@@ -144,26 +202,24 @@ function Chatbot() {
             "constipation",
             "gas",
             "gastric",
-            "gastric problem",
+            "gas problem",
             "acidity",
             "acid reflux",
             "heartburn",
             "indigestion",
-            "stomach",
             "stomach pain",
             "stomach ache",
             "belly pain",
-            "abdominal",
-            "appetite",
+            "abdominal pain",
             "loss of appetite",
+            "appetite problem",
             "infection",
             "viral infection",
-            "flu",
-            "sugar",
             "diabetes",
             "diabetic",
+            "blood sugar",
+            "high sugar",
             "blood pressure",
-            "bp",
             "high bp",
             "low bp",
             "hypertension",
@@ -173,28 +229,22 @@ function Chatbot() {
         Cardiology: [
             "heart",
             "heart problem",
+            "heart problems",
             "heart issue",
+            "heart issues",
             "heart disease",
             "heart condition",
             "heart pain",
             "heart hurts",
-            "heart beating",
-            "heartbeat",
-            "heart beat",
-            "fast heartbeat",
-            "fast heart beat",
-            "heart beating fast",
-            "heart is beating fast",
-            "heart racing",
-            "racing heart",
-            "palpitation",
-            "palpitations",
-            "irregular heartbeat",
-            "irregular heart beat",
-            "pounding heart",
-            "heart pounding",
+            "problem with my heart",
+            "something wrong with my heart",
+            "pain near heart",
+            "pain around heart",
+            "pain in heart area",
             "chest pain",
             "chest hurts",
+            "my chest hurts",
+            "pain in chest",
             "chest discomfort",
             "chest pressure",
             "pressure in chest",
@@ -202,25 +252,40 @@ function Chatbot() {
             "tightness in chest",
             "chest heaviness",
             "heavy chest",
-            "pain near heart",
-            "pain around heart",
-            "pain in heart area",
-            "cardiac",
-            "cardiovascular",
-            "breathless with chest pain",
-            "dizziness with chest pain"
+            "heavy feeling in chest",
+            "heart beating fast",
+            "heart is beating fast",
+            "fast heartbeat",
+            "fast heart beat",
+            "racing heart",
+            "heart racing",
+            "heart pounding",
+            "pounding heart",
+            "palpitation",
+            "palpitations",
+            "irregular heartbeat",
+            "irregular heart beat",
+            "heartbeat problem",
+            "heartbeat problems",
+            "cardiac problem",
+            "cardiac issue",
+            "cardiovascular problem"
         ],
 
         Dermatology: [
             "skin",
             "skin problem",
+            "skin problems",
             "skin issue",
+            "skin issues",
             "skin disease",
+            "skin condition",
             "skin infection",
             "skin rash",
             "rash",
             "rashes",
             "red rash",
+            "red patches",
             "redness",
             "skin redness",
             "itch",
@@ -229,11 +294,17 @@ function Chatbot() {
             "itchy skin",
             "skin is itchy",
             "skin very itchy",
+            "skin burning",
+            "burning skin",
+            "skin irritation",
+            "skin allergy",
+            "allergy on skin",
             "acne",
             "pimple",
             "pimples",
-            "pimples on face",
             "face pimples",
+            "pimples on face",
+            "facial acne",
             "breakouts",
             "blackheads",
             "whiteheads",
@@ -242,11 +313,6 @@ function Chatbot() {
             "dry skin",
             "very dry skin",
             "oily skin",
-            "skin allergy",
-            "skin irritation",
-            "skin burning",
-            "burning skin",
-            "skin swelling",
             "skin bumps",
             "bumps on skin",
             "dark spots",
@@ -264,31 +330,29 @@ function Chatbot() {
             "fungal infection",
             "ringworm",
             "warts",
-            "boils",
-            "skin ulcer"
+            "boils"
         ],
 
         Ophthalmology: [
             "eye",
             "eyes",
             "eye problem",
+            "eye problems",
             "eye issue",
+            "eye issues",
             "eye pain",
             "eyes hurt",
-            "my eye hurts",
             "my eyes hurt",
+            "my eye hurts",
             "pain in eye",
             "pain in eyes",
-            "vision",
             "vision problem",
+            "vision problems",
             "vision issue",
-            "eyesight",
             "eyesight problem",
             "weak eyesight",
             "blurred vision",
             "blurry vision",
-            "can't see",
-            "cannot see",
             "can't see clearly",
             "cannot see clearly",
             "difficulty seeing",
@@ -304,20 +368,18 @@ function Chatbot() {
             "eye swelling",
             "swollen eye",
             "eye discharge",
-            "eye pus",
             "double vision",
             "seeing double",
             "eye strain",
-            "sensitivity to light",
             "light hurts my eyes",
-            "flashing lights",
-            "floaters"
+            "sensitivity to light"
         ],
 
         ENT: [
             "ear",
             "ears",
             "ear problem",
+            "ear problems",
             "ear issue",
             "ear pain",
             "ear hurts",
@@ -326,8 +388,8 @@ function Chatbot() {
             "ear infection",
             "ear blockage",
             "blocked ear",
-            "hearing",
             "hearing problem",
+            "hearing problems",
             "hearing issue",
             "hearing loss",
             "can't hear",
@@ -339,7 +401,7 @@ function Chatbot() {
             "ringing in ears",
             "ear ringing",
             "tinnitus",
-            "throat",
+            "throat problem",
             "throat pain",
             "sore throat",
             "my throat hurts",
@@ -350,9 +412,8 @@ function Chatbot() {
             "tonsil",
             "tonsils",
             "tonsillitis",
-            "nose",
             "nose problem",
-            "nose issue",
+            "nose problems",
             "blocked nose",
             "stuffy nose",
             "nose bleeding",
@@ -403,8 +464,7 @@ function Chatbot() {
             "loose tooth",
             "wisdom tooth",
             "wisdom tooth pain",
-            "jaw pain",
-            "jaw problem"
+            "jaw pain"
         ],
 
         Orthopedics: [
@@ -417,7 +477,7 @@ function Chatbot() {
             "joint pain",
             "joint problem",
             "joint stiffness",
-            "stiff joint",
+            "stiff joints",
             "knee",
             "knees",
             "knee pain",
@@ -429,13 +489,11 @@ function Chatbot() {
             "my shoulder hurts",
             "pain in shoulder",
             "shoulder injury",
-            "back",
             "back pain",
             "my back hurts",
             "lower back pain",
             "upper back pain",
             "back injury",
-            "neck",
             "neck pain",
             "my neck hurts",
             "pain in neck",
@@ -458,19 +516,17 @@ function Chatbot() {
             "arthritis",
             "swollen joint",
             "difficulty walking",
-            "difficulty moving",
-            "movement problem"
+            "difficulty moving"
         ],
 
         Neurology: [
-            "brain",
             "brain problem",
             "brain issue",
             "nerve",
             "nerves",
             "nerve problem",
             "nerve pain",
-            "neurological",
+            "neurological problem",
             "neurology",
             "dizziness",
             "dizzy",
@@ -499,8 +555,6 @@ function Chatbot() {
             "memory loss",
             "forgetfulness",
             "forgetting things",
-            "nerve weakness",
-            "one side weakness",
             "balance problem",
             "loss of balance",
             "speech problem",
@@ -517,6 +571,7 @@ function Chatbot() {
             "period",
             "periods",
             "period problem",
+            "period problems",
             "period pain",
             "painful period",
             "painful periods",
@@ -527,15 +582,14 @@ function Chatbot() {
             "missed period",
             "heavy period",
             "heavy periods",
-            "heavy bleeding",
-            "menstrual",
+            "heavy menstrual bleeding",
             "menstrual problem",
+            "menstrual problems",
             "menstrual pain",
             "pregnancy",
             "pregnant",
             "pregnancy problem",
             "pregnancy issue",
-            "pregnancy related",
             "ovary",
             "ovarian",
             "ovary pain",
@@ -549,7 +603,6 @@ function Chatbot() {
             "menopause problem",
             "pcos",
             "pcod",
-            "fertility",
             "fertility problem",
             "fertility issue"
         ],
@@ -567,10 +620,10 @@ function Chatbot() {
             "my kid",
             "child health",
             "baby health",
-            "child fever",
-            "baby fever",
             "fever in child",
             "fever in baby",
+            "child fever",
+            "baby fever",
             "child cough",
             "baby cough",
             "child cold",
@@ -581,12 +634,10 @@ function Chatbot() {
             "baby diarrhea",
             "child weakness",
             "baby weakness",
-            "poor appetite in child",
-            "not eating",
-            "child not eating",
-            "baby not eating",
             "child breathing problem",
-            "baby breathing problem"
+            "baby breathing problem",
+            "child not eating",
+            "baby not eating"
         ],
 
         Urology: [
@@ -660,501 +711,309 @@ function Chatbot() {
             "coughing blood",
             "chest congestion",
             "phlegm",
-            "mucus in chest",
-            "lung pain"
+            "mucus in chest"
         ]
     };
 
     // =========================================================
-    // NORMALIZE TEXT
+    // FIND DEPARTMENT
     // =========================================================
 
-    const normalizeText = (text) => {
-        return text
-            .toLowerCase()
-            .replace(/[^\w\s]/g, " ")
-            .replace(/\s+/g, " ")
-            .trim();
-    };
+    const findDepartment = (userText) => {
+        const text = normalize(userText);
 
-    // =========================================================
-    // EMERGENCY CHECK
-    // =========================================================
-
-    const emergencyKeywords = [
-        "severe chest pain",
-        "crushing chest pain",
-        "heavy chest pain",
-        "chest pain and sweating",
-        "chest pain and vomiting",
-        "chest pain and fainting",
-        "can't breathe",
-        "cannot breathe",
-        "unable to breathe",
-        "severe breathing difficulty",
-        "not breathing",
-        "unconscious",
-        "unresponsive",
-        "stroke",
-        "face drooping",
-        "one side of body weak",
-        "one side weakness",
-        "sudden paralysis",
-        "sudden loss of vision",
-        "heavy bleeding",
-        "uncontrolled bleeding",
-        "severe bleeding",
-        "severe allergic reaction",
-        "anaphylaxis",
-        "poisoning",
-        "overdose",
-        "severe seizure",
-        "continuous seizure"
-    ];
-
-    const isEmergency = (text) => {
-        const normalized = normalizeText(text);
-
-        return emergencyKeywords.some((keyword) =>
-            normalized.includes(keyword)
-        );
-    };
-
-    // =========================================================
-    // DIRECT DEPARTMENT NAME DETECTION
-    // =========================================================
-
-    const getDirectDepartment = (text) => {
-        const normalized = normalizeText(text);
-
-        const aliases = {
-            "General Medicine": [
-                "general medicine",
-                "general doctor",
-                "general physician",
-                "physician"
-            ],
-
-            Cardiology: [
-                "cardiology",
-                "cardiologist",
-                "heart doctor",
-                "heart specialist"
-            ],
-
-            Dermatology: [
-                "dermatology",
-                "dermatologist",
-                "skin doctor",
-                "skin specialist"
-            ],
-
-            Ophthalmology: [
-                "ophthalmology",
-                "ophthalmologist",
-                "eye doctor",
-                "eye specialist"
-            ],
-
-            ENT: [
-                "ent",
-                "ent doctor",
-                "ent specialist",
-                "ear doctor",
-                "throat doctor"
-            ],
-
-            Dentistry: [
-                "dentistry",
-                "dentist",
-                "dental doctor",
-                "dental specialist"
-            ],
-
-            Orthopedics: [
-                "orthopedics",
-                "orthopedic",
-                "orthopaedic",
-                "orthopaedics",
-                "bone doctor",
-                "joint doctor"
-            ],
-
-            Neurology: [
-                "neurology",
-                "neurologist",
-                "neurosurgeon",
-                "brain doctor",
-                "nerve doctor"
-            ],
-
-            Gynecology: [
-                "gynecology",
-                "gynecologist",
-                "gynaecology",
-                "gynaecologist",
-                "women doctor"
-            ],
-
-            Pediatrics: [
-                "pediatrics",
-                "pediatrician",
-                "paediatrics",
-                "child doctor",
-                "children doctor",
-                "baby doctor"
-            ],
-
-            Urology: [
-                "urology",
-                "urologist",
-                "urine doctor",
-                "kidney doctor"
-            ],
-
-            Pulmonology: [
-                "pulmonology",
-                "pulmonologist",
-                "lung doctor",
-                "lung specialist"
-            ]
-        };
-
-        for (const department in aliases) {
-            for (const alias of aliases[department]) {
-                if (normalized === alias || normalized.includes(alias)) {
+        // Check direct department names first.
+        for (const department in departmentAliases) {
+            for (const alias of departmentAliases[department]) {
+                if (
+                    text === alias ||
+                    text.includes(alias)
+                ) {
                     return department;
                 }
             }
         }
 
-        return null;
-    };
-
-    // =========================================================
-    // SCORE EACH DEPARTMENT
-    // =========================================================
-
-    const findDepartment = (text) => {
-        const normalized = normalizeText(text);
-
-        // Direct department request gets priority.
-        const directDepartment = getDirectDepartment(normalized);
-
-        if (directDepartment) {
-            return directDepartment;
-        }
-
         const scores = {};
 
-        Object.keys(departmentKeywords).forEach((department) => {
+        Object.keys(symptoms).forEach((department) => {
             scores[department] = 0;
         });
 
-        // -----------------------------------------------------
-        // MATCH KEYWORDS
-        // -----------------------------------------------------
+        // Score matching symptoms.
+        for (const department in symptoms) {
+            for (const keyword of symptoms[department]) {
+                const cleanKeyword = normalize(keyword);
 
-        Object.entries(departmentKeywords).forEach(
-            ([department, keywords]) => {
-                keywords.forEach((keyword) => {
-                    const cleanKeyword = normalizeText(keyword);
-
-                    if (normalized.includes(cleanKeyword)) {
-                        // Longer phrases receive more weight.
-                        if (cleanKeyword.includes(" ")) {
-                            scores[department] += 3;
-                        } else {
-                            scores[department] += 1;
-                        }
+                if (text.includes(cleanKeyword)) {
+                    if (cleanKeyword.includes(" ")) {
+                        scores[department] += 3;
+                    } else {
+                        scores[department] += 1;
                     }
-                });
+                }
             }
-        );
-
-        // -----------------------------------------------------
-        // SPECIAL COMBINATION RULES
-        // -----------------------------------------------------
-
-        // Child/baby symptoms should strongly favor Pediatrics.
-        if (
-            normalized.includes("child") ||
-            normalized.includes("baby") ||
-            normalized.includes("kid") ||
-            normalized.includes("infant") ||
-            normalized.includes("children")
-        ) {
-            scores["Pediatrics"] += 8;
         }
 
-        // Heart-related combinations.
+        // Child-specific problems.
         if (
-            normalized.includes("chest") &&
+            text.includes("child") ||
+            text.includes("baby") ||
+            text.includes("kid") ||
+            text.includes("infant") ||
+            text.includes("children")
+        ) {
+            scores["Pediatrics"] += 15;
+        }
+
+        // Heart-specific problems.
+        if (
+            text.includes("heart") ||
             (
-                normalized.includes("pain") ||
-                normalized.includes("pressure") ||
-                normalized.includes("tight") ||
-                normalized.includes("heavy")
+                text.includes("chest") &&
+                (
+                    text.includes("pain") ||
+                    text.includes("pressure") ||
+                    text.includes("tight") ||
+                    text.includes("heavy") ||
+                    text.includes("discomfort")
+                )
             )
         ) {
-            scores["Cardiology"] += 8;
+            scores["Cardiology"] += 12;
         }
 
-        // Breathing-related problems.
+        // Breathing-specific problems.
         if (
-            normalized.includes("breathing") ||
-            normalized.includes("breathless") ||
-            normalized.includes("shortness of breath") ||
-            normalized.includes("wheezing")
+            text.includes("breathing") ||
+            text.includes("breathless") ||
+            text.includes("shortness of breath") ||
+            text.includes("wheezing") ||
+            text.includes("asthma")
         ) {
-            scores["Pulmonology"] += 6;
+            scores["Pulmonology"] += 10;
         }
 
-        // Skin combinations.
+        // Skin-specific problems.
         if (
-            normalized.includes("skin") &&
+            text.includes("skin") &&
             (
-                normalized.includes("itch") ||
-                normalized.includes("rash") ||
-                normalized.includes("red") ||
-                normalized.includes("infection") ||
-                normalized.includes("pimple") ||
-                normalized.includes("dry")
+                text.includes("itch") ||
+                text.includes("rash") ||
+                text.includes("red") ||
+                text.includes("pimple") ||
+                text.includes("infection") ||
+                text.includes("dry") ||
+                text.includes("burn")
             )
         ) {
-            scores["Dermatology"] += 8;
+            scores["Dermatology"] += 12;
         }
 
-        // Eye combinations.
+        // Eye-specific problems.
         if (
-            (
-                normalized.includes("eye") ||
-                normalized.includes("eyes")
-            ) &&
-            (
-                normalized.includes("pain") ||
-                normalized.includes("red") ||
-                normalized.includes("blur") ||
-                normalized.includes("vision") ||
-                normalized.includes("itch") ||
-                normalized.includes("water")
-            )
+            text.includes("eye") ||
+            text.includes("eyes") ||
+            text.includes("vision") ||
+            text.includes("eyesight")
         ) {
-            scores["Ophthalmology"] += 8;
+            scores["Ophthalmology"] += 12;
         }
 
-        // Urinary combinations.
+        // Dental-specific problems.
         if (
-            (
-                normalized.includes("urine") ||
-                normalized.includes("urinary") ||
-                normalized.includes("urinating")
-            ) &&
-            (
-                normalized.includes("pain") ||
-                normalized.includes("burn") ||
-                normalized.includes("blood") ||
-                normalized.includes("frequent")
-            )
+            text.includes("tooth") ||
+            text.includes("teeth") ||
+            text.includes("gum") ||
+            text.includes("dental")
         ) {
-            scores["Urology"] += 8;
+            scores["Dentistry"] += 12;
         }
 
-        // Dental combinations.
+        // Urinary/kidney-specific problems.
         if (
-            (
-                normalized.includes("tooth") ||
-                normalized.includes("teeth") ||
-                normalized.includes("gum") ||
-                normalized.includes("dental")
-            ) &&
-            (
-                normalized.includes("pain") ||
-                normalized.includes("hurt") ||
-                normalized.includes("bleed") ||
-                normalized.includes("swollen")
-            )
+            text.includes("urine") ||
+            text.includes("urinary") ||
+            text.includes("urinating") ||
+            text.includes("kidney") ||
+            text.includes("bladder")
         ) {
-            scores["Dentistry"] += 8;
+            scores["Urology"] += 12;
         }
 
-        // Bone/joint combinations.
+        // Women's health.
         if (
-            (
-                normalized.includes("knee") ||
-                normalized.includes("shoulder") ||
-                normalized.includes("back") ||
-                normalized.includes("joint") ||
-                normalized.includes("bone") ||
-                normalized.includes("fracture")
-            )
+            text.includes("period") ||
+            text.includes("pregnan") ||
+            text.includes("ovary") ||
+            text.includes("pelvic") ||
+            text.includes("pcos") ||
+            text.includes("pcod")
         ) {
-            scores["Orthopedics"] += 6;
+            scores["Gynecology"] += 12;
         }
 
-        // Neurological combinations.
+        // Bones and joints.
         if (
-            normalized.includes("numb") ||
-            normalized.includes("tingling") ||
-            normalized.includes("seizure") ||
-            normalized.includes("tremor") ||
-            normalized.includes("memory")
+            text.includes("knee") ||
+            text.includes("shoulder") ||
+            text.includes("bone") ||
+            text.includes("joint") ||
+            text.includes("fracture") ||
+            text.includes("sprain") ||
+            text.includes("back pain")
         ) {
-            scores["Neurology"] += 6;
+            scores["Orthopedics"] += 10;
         }
 
-        // Gynecology combinations.
+        // Neurological problems.
         if (
-            normalized.includes("period") ||
-            normalized.includes("pregnan") ||
-            normalized.includes("ovary") ||
-            normalized.includes("pelvic") ||
-            normalized.includes("pcos") ||
-            normalized.includes("pcod")
+            text.includes("numb") ||
+            text.includes("tingling") ||
+            text.includes("seizure") ||
+            text.includes("tremor") ||
+            text.includes("memory") ||
+            text.includes("vertigo")
         ) {
-            scores["Gynecology"] += 8;
+            scores["Neurology"] += 10;
         }
-
-        // -----------------------------------------------------
-        // FIND HIGHEST SCORE
-        // -----------------------------------------------------
 
         let bestDepartment = null;
         let bestScore = 0;
 
-        Object.entries(scores).forEach(([department, score]) => {
-            if (score > bestScore) {
-                bestScore = score;
-                bestDepartment = department;
+        Object.entries(scores).forEach(
+            ([department, score]) => {
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestDepartment = department;
+                }
             }
-        });
+        );
 
         return bestDepartment;
     };
 
     // =========================================================
-    // FIND DOCTOR FROM ACTUAL DATABASE
+    // FIND DOCTOR FROM DATABASE
     // =========================================================
 
     const findDoctorForDepartment = (department) => {
-        if (!doctors || doctors.length === 0) {
+        if (
+            !Array.isArray(doctors) ||
+            doctors.length === 0
+        ) {
             return null;
         }
 
-        const departmentName = department.toLowerCase();
+        const departmentName = normalize(department);
 
-        // First try specialization.
+        const matchingRules = {
+            "general medicine": [
+                "general",
+                "physician",
+                "medicine"
+            ],
+
+            cardiology: [
+                "cardiolog",
+                "cardiac"
+            ],
+
+            dermatology: [
+                "dermatolog",
+                "skin"
+            ],
+
+            ophthalmology: [
+                "ophthalm",
+                "optom",
+                "eye"
+            ],
+
+            ent: [
+                "ent",
+                "otolaryng",
+                "ear",
+                "nose",
+                "throat"
+            ],
+
+            dentistry: [
+                "dent",
+                "dental"
+            ],
+
+            orthopedics: [
+                "orthopedic",
+                "orthopaedic",
+                "orthoped",
+                "bone"
+            ],
+
+            neurology: [
+                "neurolog",
+                "neurosurgeon",
+                "neuro"
+            ],
+
+            gynecology: [
+                "gynec",
+                "gynaec",
+                "women"
+            ],
+
+            pediatrics: [
+                "pediatric",
+                "paediatric",
+                "child"
+            ],
+
+            urology: [
+                "urolog",
+                "urinary"
+            ],
+
+            pulmonology: [
+                "pulmon",
+                "respir",
+                "lung"
+            ]
+        };
+
+        const rules =
+            matchingRules[departmentName] || [
+                departmentName
+            ];
+
+        // -----------------------------------------------------
+        // FIRST: SEARCH SPECIALIZATION
+        // -----------------------------------------------------
+
         let doctor = doctors.find((item) => {
-            const specialization = normalizeText(
+            const specialization = normalize(
                 item.specialization || ""
             );
 
-            const dbDepartment = normalizeText(
+            return rules.some((rule) =>
+                specialization.includes(rule)
+            );
+        });
+
+        if (doctor) {
+            return doctor;
+        }
+
+        // -----------------------------------------------------
+        // SECOND: SEARCH DEPARTMENT FIELD
+        // -----------------------------------------------------
+
+        doctor = doctors.find((item) => {
+            const dbDepartment = normalize(
                 item.department || ""
             );
 
-            if (departmentName === "dermatology") {
-                return (
-                    specialization.includes("dermatolog") ||
-                    dbDepartment.includes("dermatolog")
-                );
-            }
-
-            if (departmentName === "cardiology") {
-                return (
-                    specialization.includes("cardiolog") ||
-                    dbDepartment.includes("cardiolog")
-                );
-            }
-
-            if (departmentName === "neurology") {
-                return (
-                    specialization.includes("neurolog") ||
-                    dbDepartment.includes("neurolog") ||
-                    specialization.includes("neurosurgeon") ||
-                    dbDepartment.includes("neurosurgeon")
-                );
-            }
-
-            if (departmentName === "orthopedics") {
-                return (
-                    specialization.includes("orthopedic") ||
-                    specialization.includes("orthopaedic") ||
-                    dbDepartment.includes("orthopedic") ||
-                    dbDepartment.includes("orthopaedic")
-                );
-            }
-
-            if (departmentName === "ophthalmology") {
-                return (
-                    specialization.includes("ophthalm") ||
-                    dbDepartment.includes("ophthalm") ||
-                    specialization.includes("eye") ||
-                    dbDepartment.includes("eye")
-                );
-            }
-
-            if (departmentName === "ent") {
-                return (
-                    specialization.includes("ent") ||
-                    dbDepartment.includes("ent") ||
-                    specialization.includes("otolaryng")
-                );
-            }
-
-            if (departmentName === "dentistry") {
-                return (
-                    specialization.includes("dent") ||
-                    dbDepartment.includes("dent")
-                );
-            }
-
-            if (departmentName === "gynecology") {
-                return (
-                    specialization.includes("gynec") ||
-                    specialization.includes("gynaec") ||
-                    dbDepartment.includes("gynec") ||
-                    dbDepartment.includes("gynaec")
-                );
-            }
-
-            if (departmentName === "pediatrics") {
-                return (
-                    specialization.includes("pediatric") ||
-                    specialization.includes("paediatric") ||
-                    dbDepartment.includes("pediatric") ||
-                    dbDepartment.includes("paediatric")
-                );
-            }
-
-            if (departmentName === "urology") {
-                return (
-                    specialization.includes("urolog") ||
-                    dbDepartment.includes("urolog")
-                );
-            }
-
-            if (departmentName === "pulmonology") {
-                return (
-                    specialization.includes("pulmon") ||
-                    specialization.includes("respir") ||
-                    dbDepartment.includes("pulmon") ||
-                    dbDepartment.includes("respir")
-                );
-            }
-
-            if (departmentName === "general medicine") {
-                return (
-                    specialization.includes("general") ||
-                    specialization.includes("physician") ||
-                    dbDepartment.includes("general") ||
-                    dbDepartment.includes("medicine")
-                );
-            }
-
-            return (
-                specialization.includes(departmentName) ||
-                dbDepartment.includes(departmentName)
+            return rules.some((rule) =>
+                dbDepartment.includes(rule)
             );
         });
 
@@ -1162,57 +1021,158 @@ function Chatbot() {
     };
 
     // =========================================================
-    // DOCTOR RESPONSE
+    // DEPARTMENT RESPONSE
     // =========================================================
 
-    const createDepartmentReply = (department) => {
-        const doctor = findDoctorForDepartment(department);
+    const getDepartmentReply = (department) => {
+        const doctor =
+            findDoctorForDepartment(department);
 
-        let reply = `🏥 Department: ${department}
+        let description = "";
 
-${departmentInfo[department].description}`;
+        if (department === "Cardiology") {
+            description =
+                "Heart and cardiovascular problems such as chest discomfort, palpitations and blood-pressure-related concerns.";
+        } else if (department === "Dermatology") {
+            description =
+                "Skin, hair and nail problems including rashes, itching, acne, infections and hair loss.";
+        } else if (department === "Ophthalmology") {
+            description =
+                "Eye and vision problems including blurred vision, eye pain, redness and infections.";
+        } else if (department === "ENT") {
+            description =
+                "Ear, nose and throat problems including ear pain, hearing problems, sinus issues and sore throat.";
+        } else if (department === "Dentistry") {
+            description =
+                "Teeth, gums and mouth problems including toothache, cavities, gum swelling and dental infections.";
+        } else if (department === "Orthopedics") {
+            description =
+                "Bone, joint and muscle problems including back pain, knee pain, fractures and injuries.";
+        } else if (department === "Neurology") {
+            description =
+                "Brain and nerve-related problems including numbness, seizures, tremors, dizziness and memory problems.";
+        } else if (department === "Gynecology") {
+            description =
+                "Women's reproductive and gynecological concerns including period problems, pregnancy-related concerns and pelvic problems.";
+        } else if (department === "Pediatrics") {
+            description =
+                "Healthcare for babies, children and adolescents.";
+        } else if (department === "Urology") {
+            description =
+                "Urinary system and kidney-related problems including burning urination, kidney stones and urinary infections.";
+        } else if (department === "Pulmonology") {
+            description =
+                "Lung and breathing problems including asthma, wheezing, persistent cough and breathing difficulty.";
+        } else {
+            description =
+                "General health problems, common illnesses, infections, weakness and other general medical concerns.";
+        }
+
+        let reply = `🏥 ${department}
+
+${description}`;
+
+        // -----------------------------------------------------
+        // DATABASE DOCTOR
+        // -----------------------------------------------------
 
         if (doctor) {
             reply += `
 
-👨‍⚕️ Doctor:
-${doctor.doctor_name || "Doctor available"}
+👨‍⚕️ Recommended Doctor
 
-🩺 Specialization:
-${doctor.specialization || "Not specified"}`;
+${doctor.doctor_name || "Doctor name unavailable"}
 
-            if (doctor.experience !== undefined) {
-                reply += `
+🩺 ${doctor.specialization || "Specialization not specified"}`;
 
-Experience:
-${doctor.experience} years`;
+            if (
+                doctor.experience !== undefined &&
+                doctor.experience !== null
+            ) {
+                reply += ` • ${doctor.experience} years experience`;
             }
         } else {
             reply += `
 
-👨‍⚕️ Doctor:
+👨‍⚕️ Recommended Doctor
+
 No doctor is currently registered for this department in the Doctors module.`;
         }
 
         reply += `
 
-Please consult a qualified doctor for proper evaluation and treatment.`;
+Please consult the doctor for proper evaluation and treatment. 🩺`;
 
         return reply;
     };
 
     // =========================================================
-    // ALL DOCTORS
+    // EMERGENCY CHECK
+    // =========================================================
+
+    const isEmergency = (text) => {
+        const emergencyWords = [
+            "severe chest pain",
+            "crushing chest pain",
+            "heavy chest pain",
+            "chest pain and sweating",
+            "chest pain and fainting",
+            "chest pain and difficulty breathing",
+            "unable to breathe",
+            "not breathing",
+            "unconscious",
+            "unresponsive",
+            "face drooping",
+            "one side of body weak",
+            "sudden paralysis",
+            "sudden loss of vision",
+            "heavy bleeding",
+            "uncontrolled bleeding",
+            "severe bleeding",
+            "continuous seizure",
+            "severe allergic reaction",
+            "anaphylaxis",
+            "poisoning",
+            "overdose"
+        ];
+
+        return emergencyWords.some((word) =>
+            text.includes(word)
+        );
+    };
+
+    // =========================================================
+    // EMERGENCY RESPONSE
+    // =========================================================
+
+    const getEmergencyReply = () => {
+        return `🚨 EMERGENCY
+
+Your message may describe a potentially serious medical situation.
+
+Please seek emergency medical care immediately or contact your local emergency service.
+
+If you are already at the hospital, inform the emergency or medical staff immediately.
+
+Do not wait for a chatbot response if symptoms are severe, sudden or getting worse.`;
+    };
+
+    // =========================================================
+    // DOCTORS LIST
     // =========================================================
 
     const getDoctorsReply = () => {
-        if (!doctors || doctors.length === 0) {
+        if (
+            !Array.isArray(doctors) ||
+            doctors.length === 0
+        ) {
             return `👨‍⚕️ Doctors
 
 No doctors are currently available in the database.`;
         }
 
-        let reply = "👨‍⚕️ Doctors Available in AarogyaCare\n\n";
+        let reply =
+            "👨‍⚕️ Doctors Available in AarogyaCare\n\n";
 
         doctors.forEach((doctor, index) => {
             reply += `${index + 1}. ${
@@ -1220,54 +1180,44 @@ No doctors are currently available in the database.`;
             }
 
 Specialization: ${
-                doctor.specialization || "Not specified"
+                doctor.specialization ||
+                "Not specified"
             }
 
 Department: ${
-                doctor.department || "Not specified"
+                doctor.department ||
+                "Not specified"
+            }`;
+
+            if (
+                doctor.experience !== undefined &&
+                doctor.experience !== null
+            ) {
+                reply += `
+Experience: ${doctor.experience} years`;
             }
 
-Experience: ${
-                doctor.experience !== undefined
-                    ? `${doctor.experience} years`
-                    : "Not specified"
+            if (doctor.doctor_id) {
+                reply += `
+Doctor ID: ${doctor.doctor_id}`;
             }
 
-`;
+            reply += "\n\n";
         });
 
-        return reply;
+        return reply.trim();
     };
 
     // =========================================================
-    // EMERGENCY RESPONSE
-    // =========================================================
-
-    const emergencyReply = () => {
-        return `🚨 EMERGENCY
-
-Your message may describe a potentially serious medical situation.
-
-Please seek emergency medical care immediately or contact your local emergency service.
-
-Do not wait for a chatbot response if symptoms are severe, sudden, or getting worse.
-
-🏥 If you are already at the hospital, please inform the emergency/medical staff immediately.`;
-    };
-
-    // =========================================================
-    // MAIN BOT LOGIC
+    // MAIN BOT RESPONSE
     // =========================================================
 
     const getBotReply = (userMessage) => {
-        const text = normalizeText(userMessage);
+        const text = normalize(userMessage);
 
-        // -----------------------------------------------------
-        // EMERGENCY FIRST
-        // -----------------------------------------------------
-
+        // Emergency first.
         if (isEmergency(text)) {
-            return emergencyReply();
+            return getEmergencyReply();
         }
 
         // -----------------------------------------------------
@@ -1286,23 +1236,35 @@ Do not wait for a chatbot response if symptoms are severe, sudden, or getting wo
 
 Welcome to AarogyaCare Hospital.
 
-You can:
-🩺 Describe your symptoms
-👨‍⚕️ Ask about doctors
-🏥 Ask about departments
-📅 Ask about appointments
-💊 Ask about pharmacy
-🧪 Ask about laboratory
-💳 Ask about billing
+You can describe your symptoms in your own words.
 
 For example:
-"My skin is very itchy"
-"My chest hurts"
-"My knee is painful"`;
+
+❤️ "My chest hurts"
+
+🧴 "My skin is very itchy"
+
+👁️ "My vision is blurry"
+
+🦷 "My tooth hurts"
+
+🦴 "My knee hurts"
+
+🧠 "My hand feels numb"
+
+👂 "I can't hear properly"
+
+🫁 "I feel breathless"
+
+🚻 "It burns when I urinate"
+
+👩 "My periods are irregular"
+
+👶 "My child has fever"`;
         }
 
         // -----------------------------------------------------
-        // DOCTOR LIST
+        // DOCTORS
         // -----------------------------------------------------
 
         if (
@@ -1318,7 +1280,7 @@ For example:
         }
 
         // -----------------------------------------------------
-        // DEPARTMENT LIST
+        // DEPARTMENTS
         // -----------------------------------------------------
 
         if (
@@ -1344,17 +1306,17 @@ For example:
 • Urology
 • Pulmonology
 
-You can type a department name or simply describe your symptoms.`;
+You can type a department name or describe your symptoms.`;
         }
 
         // -----------------------------------------------------
-        // APPOINTMENT
+        // APPOINTMENTS
         // -----------------------------------------------------
 
         if (
             text.includes("appointment") ||
             text.includes("book doctor") ||
-            text.includes("book an appointment") ||
+            text.includes("book appointment") ||
             text.includes("schedule appointment") ||
             text.includes("doctor appointment")
         ) {
@@ -1363,6 +1325,7 @@ You can type a department name or simply describe your symptoms.`;
 You can book and manage appointments from the Appointments module.
 
 You can select:
+
 • Patient
 • Doctor
 • Appointment date
@@ -1485,7 +1448,7 @@ The Billing module allows you to manage:
         }
 
         // -----------------------------------------------------
-        // THANK YOU
+        // THANKS
         // -----------------------------------------------------
 
         if (
@@ -1513,13 +1476,13 @@ Take care and stay healthy! 🩺`;
         }
 
         // -----------------------------------------------------
-        // FIND DEPARTMENT FROM SYMPTOMS
+        // SYMPTOM DETECTION
         // -----------------------------------------------------
 
         const department = findDepartment(text);
 
         if (department) {
-            return createDepartmentReply(department);
+            return getDepartmentReply(department);
         }
 
         // -----------------------------------------------------
@@ -1528,31 +1491,31 @@ Take care and stay healthy! 🩺`;
 
         return `I couldn't confidently identify the appropriate department from that description.
 
-You can describe the problem in your own words.
+Please describe the problem in your own words.
 
 For example:
 
-🩺 "I have a painful rash on my skin"
+❤️ "Something is wrong with my heart"
 
-❤️ "My heart is beating very fast"
+🧴 "I have red itchy patches on my skin"
 
-👁️ "My vision is blurry"
+👁️ "Everything looks blurry"
 
-🦷 "My tooth hurts when I eat"
+👂 "I can't hear properly"
+
+🦷 "My gums are swollen"
 
 🦴 "My knee hurts when I walk"
 
 🧠 "My hand feels numb"
 
-👂 "I can't hear properly"
-
-🫁 "I get breathless easily"
-
-🚻 "It burns when I urinate"
-
 👩 "My periods are irregular"
 
 👶 "My child has fever"
+
+🚻 "It burns when I pee"
+
+🫁 "I get breathless when walking"
 
 You can also ask me about doctors, appointments, patients, admissions, pharmacy, laboratory or billing.`;
     };
@@ -1615,19 +1578,23 @@ You can also ask me about doctors, appointments, patients, admissions, pharmacy,
             </button>
 
             {open && (
-                <div className="chatbot-container">
+                <div className="chatbot-window">
 
                     {/* HEADER */}
 
                     <div className="chatbot-header">
 
                         <div>
-                            <strong>AarogyaCare Assistant</strong>
-                            <span>🏥 Hospital Support</span>
+                            <strong>
+                                AarogyaCare Assistant
+                            </strong>
+
+                            <span>
+                                🏥 Hospital Support
+                            </span>
                         </div>
 
                         <button
-                            className="chatbot-close"
                             onClick={() => setOpen(false)}
                         >
                             ✕
@@ -1644,22 +1611,27 @@ You can also ask me about doctors, appointments, patients, admissions, pharmacy,
                                 key={index}
                                 className={
                                     msg.sender === "user"
-                                        ? "message user-message"
-                                        : "message bot-message"
+                                        ? "chat-message user"
+                                        : "chat-message bot"
                                 }
                             >
-                                <div className="message-text">
+                                <div>
 
                                     {msg.text
                                         .split("\n")
                                         .map((line, i) => (
-                                            <React.Fragment key={i}>
+                                            <React.Fragment
+                                                key={i}
+                                            >
                                                 {line}
 
                                                 {i <
-                                                    msg.text.split("\n")
-                                                        .length -
-                                                        1 && <br />}
+                                                    msg.text.split(
+                                                        "\n"
+                                                    ).length -
+                                                        1 && (
+                                                    <br />
+                                                )}
                                             </React.Fragment>
                                         ))}
 
@@ -1683,7 +1655,9 @@ You can also ask me about doctors, appointments, patients, admissions, pharmacy,
                             onKeyDown={handleKeyDown}
                         />
 
-                        <button onClick={sendMessage}>
+                        <button
+                            onClick={sendMessage}
+                        >
                             ➤
                         </button>
 
