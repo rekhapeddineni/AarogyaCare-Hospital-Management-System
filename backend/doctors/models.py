@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Doctor(models.Model):
     doctor_id = models.CharField(max_length=20, unique=True)
     doctor_name = models.CharField(max_length=100)
@@ -10,6 +11,13 @@ class Doctor(models.Model):
     email = models.EmailField()
     address = models.TextField()
     department = models.CharField(max_length=100)
+
+    # NEW FIELD
+    keywords = models.TextField(
+        blank=True,
+        help_text="Enter related symptoms or diseases separated by commas"
+    )
+
     joining_date = models.DateField()
 
     def __str__(self):

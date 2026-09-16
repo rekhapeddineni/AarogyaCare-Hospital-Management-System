@@ -1,3 +1,7 @@
+/* =========================================================
+   CHATBOT BUTTON
+========================================================= */
+
 .chatbot-button {
     position: fixed;
     right: 25px;
@@ -13,12 +17,17 @@
     color: white;
 
     font-size: 25px;
-
     cursor: pointer;
 
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 
-    z-index: 9999;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
 }
 
 .chatbot-button:hover {
@@ -27,12 +36,20 @@
 }
 
 
-/* CHAT WINDOW */
+/* =========================================================
+   CHATBOT WINDOW
+========================================================= */
 
 .chatbot-window {
     position: fixed;
 
     right: 25px;
+
+    /*
+       IMPORTANT:
+       This makes the chatbot open ABOVE
+       the chatbot button.
+    */
     bottom: 95px;
 
     width: 350px;
@@ -49,25 +66,33 @@
 
     overflow: hidden;
 
-    z-index: 9999;
+    z-index: 99998;
 }
 
 
-/* HEADER */
+/* =========================================================
+   CHATBOT HEADER
+========================================================= */
 
 .chatbot-header {
     background: #0f766e;
+
     color: white;
 
     padding: 16px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
+    flex-shrink: 0;
 }
 
 .chatbot-header div {
     display: flex;
+
     flex-direction: column;
 }
 
@@ -77,13 +102,17 @@
 
 .chatbot-header span {
     font-size: 11px;
+
     margin-top: 3px;
+
     color: #ccfbf1;
 }
 
 .chatbot-header button {
     border: none;
+
     background: transparent;
+
     color: white;
 
     font-size: 18px;
@@ -92,7 +121,9 @@
 }
 
 
-/* MESSAGES */
+/* =========================================================
+   MESSAGES
+========================================================= */
 
 .chatbot-messages {
     flex: 1;
@@ -104,10 +135,16 @@
     background: #f8fafc;
 
     display: flex;
+
     flex-direction: column;
 
     gap: 10px;
 }
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
 
 .chat-message {
     max-width: 80%;
@@ -119,7 +156,12 @@
     font-size: 13px;
 
     line-height: 1.4;
+
+    word-wrap: break-word;
 }
+
+
+/* BOT MESSAGE */
 
 .chat-message.bot {
     align-self: flex-start;
@@ -133,6 +175,9 @@
     border-bottom-left-radius: 4px;
 }
 
+
+/* USER MESSAGE */
+
 .chat-message.user {
     align-self: flex-end;
 
@@ -144,7 +189,9 @@
 }
 
 
-/* INPUT */
+/* =========================================================
+   INPUT
+========================================================= */
 
 .chatbot-input {
     padding: 12px;
@@ -156,6 +203,8 @@
     display: flex;
 
     gap: 8px;
+
+    flex-shrink: 0;
 }
 
 .chatbot-input input {
@@ -199,21 +248,34 @@
 }
 
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 600px) {
 
     .chatbot-window {
         right: 12px;
+
+        /*
+           Still opens ABOVE the button.
+        */
         bottom: 85px;
 
         width: calc(100% - 24px);
 
-        height: 450px;
+        /*
+           Prevent the window from going
+           below the visible screen.
+        */
+        height: min(450px, calc(100vh - 110px));
+
+        border-radius: 16px;
     }
 
     .chatbot-button {
         right: 18px;
+
         bottom: 18px;
     }
 }
