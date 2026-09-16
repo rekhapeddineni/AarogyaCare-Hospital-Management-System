@@ -30,3 +30,4 @@ class MedicineSerializer(serializers.ModelSerializer):
 
     def get_id(self, obj):
         return str(obj.id)
+    
