@@ -1,8 +1,20 @@
-
 from django.urls import path, include
+from django.http import JsonResponse
+
+
+def api_home(request):
+    return JsonResponse({
+        "application": "AarogyaCare Hospital Management System",
+        "status": "Online",
+        "message": "AarogyaCare Backend API is running successfully",
+        "version": "1.0",
+    })
 
 
 urlpatterns = [
+
+    # API Home
+    path("api/", api_home, name="api-home"),
 
     # Accounts
     path("api/accounts/", include("accounts.urls")),
